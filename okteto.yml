@@ -1,0 +1,16 @@
+name: pr-controller
+autocreate: true
+image: golang:1.18.1-alpine3.15
+command: ash
+securityContext:
+  capabilities:
+    add:
+    - SYS_PTRACE
+volumes:
+- /go/pkg/
+- /root/.cache/go-build/
+sync:
+- .:/usr/src/app
+workdir: /usr/src/app
+forward:
+- 8080:8080

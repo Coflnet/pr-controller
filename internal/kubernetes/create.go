@@ -140,6 +140,9 @@ func CreateIngress(pr *model.Pr) error {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      pr.KubernetesResourceName(),
 			Namespace: "pr-env",
+			Annotations: map[string]string{
+				"kubernetes.io/ingress.class": "nginx",
+			},
 		},
 		Spec: v1.IngressSpec{
 			Rules: []v1.IngressRule{

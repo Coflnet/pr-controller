@@ -40,7 +40,7 @@ func (p *Pr) FullImageWithTag() string {
 }
 
 func (p *Pr) Tag() string {
-	return fmt.Sprintf("%s-%s-%s", strings.ToLower(p.Owner), strings.ToLower(p.Repo), strings.ToLower(p.Branch))
+	return fmt.Sprintf("%s-%s-%s-%s", strings.ToLower(p.Owner), strings.ToLower(p.Repo), strings.ToLower(p.Branch), strings.ToLower(p.LastCommit))
 }
 
 func (p *Pr) GitUrl() string {

@@ -134,7 +134,7 @@ func CreateService(pr *model.Pr) error {
 func CreateIngress(pr *model.Pr) error {
 	ingressClient := clientset.NetworkingV1().Ingresses("pr-env")
 
-	var pathPrefix = v1.PathTypeImplementationSpecific
+	var pathPrefix = v1.PathTypePrefix
 
 	ingress := &v1.Ingress{
 		ObjectMeta: metav1.ObjectMeta{

@@ -78,6 +78,6 @@ func DeletePr(pr *model.Pr) error {
 		return err
 	}
 
-	log.Info().Msgf("successfully deleted %d documents", result.DeletedCount)
+	log.Info().Msgf("successfully deleted %d documents with id %s", result.DeletedCount, pr.ID)
 	return nil
 }

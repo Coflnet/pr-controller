@@ -2,9 +2,9 @@ package pr
 
 import (
 	"github.com/Coflnet/pr-controller/internal/argo"
+	"github.com/Coflnet/pr-controller/internal/kubernetes"
 	"github.com/Coflnet/pr-controller/internal/model"
 	"github.com/Coflnet/pr-controller/internal/mongo"
-	"github.com/Coflnet/pr-controller/kubernetes"
 	"github.com/rs/zerolog/log"
 )
 

@@ -67,6 +67,20 @@ func CreateDeployment(pr *model.Pr) error {
 									ContainerPort: 3000,
 								},
 							},
+							Env: []apiv1.EnvVar{
+								{
+									Name:  "BASE_PATH",
+									Value: pr.DomainPath(),
+								},
+								{
+									Name:  "COMMAND_ENDPOINT",
+									Value: "http://sky-commands:8008/command",
+								},
+								{
+									Name:  "API_ENDPOINT",
+									Value: "http://api-service/api",
+								},
+							},
 						},
 					},
 				},

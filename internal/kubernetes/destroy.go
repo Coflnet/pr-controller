@@ -9,8 +9,18 @@ import (
 )
 
 func Destroy(pr *model.Pr) error {
-	log.Warn().Msgf("destroying not implmented yet, destroy pr %s/%s", pr.Owner, pr.Repo)
-	return nil
+	err := DestroyDeployment(pr)
+	if err != nil {
+		return err
+	}
+
+	err = DestroyService(pr)
+	if err != nil {
+		return err
+	}
+
+	err = DestroyIngress(pr)
+	return err
 }
 
 func DestroyDeployment(pr *model.Pr) error {
@@ -19,6 +29,31 @@ func DestroyDeployment(pr *model.Pr) error {
 
 	err := deploymentsClient.Delete(context.TODO(), pr.KubernetesResourceName(), metav1.DeleteOptions{})
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DestroyService(pr *model.Pr) error {
+	serviceClient := clientset.CoreV1().Services("pr-env")
+
+	err := serviceClient.Delete(context.TODO(), pr.KubernetesResourceName(), metav1.DeleteOptions{})
+
+	if err != nil {
+		log.Error().Err(err).Msgf("could not delete service %s", pr.KubernetesResourceName())
+		return err
+	}
+
+	return nil
+}
+
+func DestroyIngress(pr *model.Pr) error {
+	ingressClient := clientset.NetworkingV1().Ingresses("pr-env")
+
+	err := ingressClient.Delete(context.TODO(), pr.KubernetesResourceName(), metav1.DeleteOptions{})
+	if err != nil {
+		log.Error().Err(err).Msgf("error deleting ingress %s", pr.KubernetesResourceName())
 		return err
 	}
 

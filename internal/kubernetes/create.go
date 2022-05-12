@@ -74,11 +74,11 @@ func CreateDeployment(pr *model.Pr) error {
 								},
 								{
 									Name:  "COMMAND_ENDPOINT",
-									Value: "http://sky-commands:8008/command",
+									Value: "http://sky-commands.sky:8008/command",
 								},
 								{
 									Name:  "API_ENDPOINT",
-									Value: "http://api-service/api",
+									Value: "http://api-service.sky/api",
 								},
 							},
 						},

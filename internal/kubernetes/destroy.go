@@ -29,6 +29,7 @@ func DestroyDeployment(pr *model.Pr) error {
 
 	err := deploymentsClient.Delete(context.TODO(), pr.KubernetesResourceName(), metav1.DeleteOptions{})
 	if err != nil {
+		log.Error().Err(err).Msgf("could not delete deployment %s", pr.KubernetesResourceName())
 		return err
 	}
 

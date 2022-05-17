@@ -19,6 +19,7 @@ func Destroy(pr *model.Pr) error {
 	err = mongo.DeletePr(pr)
 	if err != nil {
 		log.Error().Err(err).Msg("error deleting pr from db")
+		return err
 	}
 
 	return nil

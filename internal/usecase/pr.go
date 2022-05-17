@@ -39,8 +39,8 @@ func UpdatePrEnvs() error {
 			return err
 		}
 
-		log.Info().Msgf("waiting 1 minutes before doing something else")
-		time.Sleep(time.Minute * 1)
+		log.Info().Msgf("waiting 10 minutes before doing something else")
+		time.Sleep(time.Minute * 10)
 	}
 
 	updatedPrs := updatedPrs(githubPrs, dbPrs)
@@ -51,8 +51,8 @@ func UpdatePrEnvs() error {
 			return err
 		}
 
-		log.Info().Msgf("waiting 1 minutes before doing something else")
-		time.Sleep(time.Minute * 1)
+		log.Info().Msgf("waiting 10 minutes before doing something else")
+		time.Sleep(time.Minute * 10)
 	}
 
 	destroyPrs := destroyPrs(githubPrs, dbPrs)
@@ -63,8 +63,8 @@ func UpdatePrEnvs() error {
 			return err
 		}
 
-		log.Info().Msgf("waiting 1 minutes before doing something else")
-		time.Sleep(time.Minute * 1)
+		log.Info().Msgf("waiting 10 minutes before doing something else")
+		time.Sleep(time.Minute * 10)
 	}
 
 	log.Info().Msgf("finsihed updating pr envs")

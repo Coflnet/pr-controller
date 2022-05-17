@@ -16,7 +16,10 @@ func Destroy(pr *model.Pr) error {
 	}
 
 	log.Info().Msgf("deleteing entry in db for branch %s", pr.Branch)
-	mongo.DeletePr(pr)
+	err = mongo.DeletePr(pr)
+	if err != nil {
+		log.Error().Err(err).Msg("error deleting pr from db")
+	}
 
 	return nil
 }

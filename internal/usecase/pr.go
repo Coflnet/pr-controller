@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"sync"
 	"time"
 
 	"github.com/Coflnet/pr-controller/internal/github"
@@ -10,7 +11,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+var wg sync.WaitGroup
+
 func UpdatePrEnvs() error {
+
+	wg.Wait()
+	wg.Add(1)
+	defer wg.Done()
 
 	log.Info().Msgf("updating pr envs")
 
@@ -38,7 +45,7 @@ func UpdatePrEnvs() error {
 
 	updatedPrs := updatedPrs(githubPrs, dbPrs)
 	for _, updatePr := range updatedPrs {
-		pr.Update(updatePr)
+		err = pr.Update(updatePr)
 		if err != nil {
 			log.Error().Err(err).Msgf("there was a problem when updating pr %s", updatePr.Repo)
 			return err
@@ -50,7 +57,7 @@ func UpdatePrEnvs() error {
 
 	destroyPrs := destroyPrs(githubPrs, dbPrs)
 	for _, destroyPr := range destroyPrs {
-		pr.Destroy(destroyPr)
+		err = pr.Destroy(destroyPr)
 		if err != nil {
 			log.Error().Err(err).Msgf("there was a problem when creating pr %s", destroyPr.Repo)
 			return err

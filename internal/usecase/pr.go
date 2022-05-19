@@ -67,13 +67,13 @@ func UpdatePrEnvs() error {
 		time.Sleep(time.Minute * 10)
 	}
 
-	log.Info().Msgf("finsihed updating pr envs")
+	log.Info().Msgf("finished updating pr envs")
 
 	return nil
 }
 
 func newPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
-	newPrs := []*model.Pr{}
+	var newPrs []*model.Pr
 
 	for _, githubPr := range githubPrs {
 
@@ -81,12 +81,17 @@ func newPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
 
 		for _, dbPr := range dbPrs {
 
+			log.Info().Msgf("comparing github pr: %s, %s, %d with mongo pr %s, %s, %d", githubPr.Owner, githubPr.Repo, githubPr.Number, dbPr.Owner, dbPr.Repo, dbPr.Number)
+
 			if githubPr.Repo == dbPr.Repo &&
 				githubPr.Number == dbPr.Number &&
 				githubPr.Owner == dbPr.Owner {
 				found = true
+				log.Info().Msgf("comparison above returns true")
+				break
 			}
 
+			log.Info().Msgf("comparison above returns false")
 		}
 
 		if !found {
@@ -100,7 +105,7 @@ func newPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
 }
 
 func updatedPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
-	updatePrs := []*model.Pr{}
+	var updatePrs []*model.Pr
 
 	for _, githubPr := range githubPrs {
 		for _, dbPr := range dbPrs {
@@ -126,7 +131,7 @@ func updatedPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
 }
 
 func destroyPrs(githubPrs []*model.Pr, dbPrs []*model.Pr) []*model.Pr {
-	destroyPrs := []*model.Pr{}
+	var destroyPrs []*model.Pr
 
 	for _, dbPr := range dbPrs {
 		found := false

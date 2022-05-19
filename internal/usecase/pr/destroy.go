@@ -1,8 +1,8 @@
 package pr
 
 import (
-	metrics "github.com/Coflnet/pr-controller/internal"
 	"github.com/Coflnet/pr-controller/internal/kubernetes"
+	"github.com/Coflnet/pr-controller/internal/metrics"
 	"github.com/Coflnet/pr-controller/internal/model"
 	"github.com/Coflnet/pr-controller/internal/mongo"
 	"github.com/rs/zerolog/log"

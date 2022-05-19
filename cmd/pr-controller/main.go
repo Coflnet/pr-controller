@@ -1,10 +1,10 @@
 package main
 
 import (
-	metrics "github.com/Coflnet/pr-controller/internal"
 	"github.com/Coflnet/pr-controller/internal/api"
 	"github.com/Coflnet/pr-controller/internal/github"
 	"github.com/Coflnet/pr-controller/internal/kubernetes"
+	"github.com/Coflnet/pr-controller/internal/metrics"
 	"github.com/Coflnet/pr-controller/internal/mongo"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/rs/zerolog/log"

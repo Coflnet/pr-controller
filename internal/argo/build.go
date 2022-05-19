@@ -3,7 +3,7 @@ package argo
 import (
 	"bytes"
 	"encoding/json"
-	metrics "github.com/Coflnet/pr-controller/internal"
+	"github.com/Coflnet/pr-controller/internal/metrics"
 	"net/http"
 	"os"
 

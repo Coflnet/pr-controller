@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"time"
 
 	"github.com/Coflnet/pr-controller/internal/model"
 	"github.com/rs/zerolog/log"
@@ -12,7 +13,7 @@ func ListPrs() ([]*model.Pr, error) {
 	owner := "Coflnet"
 	repo := "hypixel-react"
 
-	ctx := context.Background()
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*10)
 	prs, _, err := client.PullRequests.List(ctx, owner, repo, nil)
 
 	if err != nil {
@@ -22,7 +23,7 @@ func ListPrs() ([]*model.Pr, error) {
 
 	log.Info().Msgf("read %d pull requests from github", len(prs))
 
-	mongoPrs := []*model.Pr{}
+	var mongoPrs []*model.Pr
 	for _, githubPr := range prs {
 		pr := model.Pr{
 			Owner:      *githubPr.Head.Repo.Owner.Login,

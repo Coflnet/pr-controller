@@ -1,6 +1,7 @@
 package pr
 
 import (
+	metrics "github.com/Coflnet/pr-controller/internal"
 	"github.com/Coflnet/pr-controller/internal/argo"
 	"github.com/Coflnet/pr-controller/internal/kubernetes"
 	"github.com/Coflnet/pr-controller/internal/model"
@@ -33,6 +34,8 @@ func Create(pr *model.Pr) error {
 		return err
 	}
 
-	log.Warn().Msgf("creating not implmented yet, create pr %s", pr.Repo)
+	log.Info().Msgf("created pr %s/%s", pr.Owner, pr.Repo)
+	metrics.AddEnvironment()
+
 	return nil
 }

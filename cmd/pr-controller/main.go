@@ -1,6 +1,7 @@
 package main
 
 import (
+	metrics "github.com/Coflnet/pr-controller/internal"
 	"github.com/Coflnet/pr-controller/internal/api"
 	"github.com/Coflnet/pr-controller/internal/github"
 	"github.com/Coflnet/pr-controller/internal/kubernetes"
@@ -11,16 +12,30 @@ import (
 
 func main() {
 
-	github.Init()
+	go github.Init()
 
-	kubernetes.Init()
+	go func() {
+		err := kubernetes.Init()
+		if err != nil {
+			log.Fatal().Err(err).Msgf("could not initialize kubernetes")
+		}
+	}()
 
-	err := mongo.Init()
-	if err != nil {
-		log.Fatal().Err(err).Msg("could not connect to mongo")
-	}
+	go func() {
+		err := mongo.Init()
+		if err != nil {
+			log.Fatal().Err(err).Msg("could not connect to mongo")
+		}
+	}()
 	defer mongo.Disconnect()
 
-	err = api.StartApi()
+	go func() {
+		err := metrics.Init()
+		if err != nil {
+			log.Fatal().Err(err).Msg("could not connect to metrics")
+		}
+	}()
+
+	err := api.StartApi()
 	log.Error().Err(err).Msgf("api stopped")
 }

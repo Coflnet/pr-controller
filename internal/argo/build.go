@@ -3,6 +3,7 @@ package argo
 import (
 	"bytes"
 	"encoding/json"
+	metrics "github.com/Coflnet/pr-controller/internal"
 	"net/http"
 	"os"
 
@@ -53,6 +54,7 @@ func BuildImage(image, tag, repo, branch string) error {
 	}
 
 	log.Info().Msgf("triggered a build of container %s:%s, git repo: %s", image, tag, repo)
+	metrics.CIPipelineTriggered()
 
 	return nil
 }

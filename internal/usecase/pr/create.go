@@ -2,6 +2,7 @@ package pr
 
 import (
 	"github.com/Coflnet/pr-controller/internal/argo"
+	"github.com/Coflnet/pr-controller/internal/discord"
 	"github.com/Coflnet/pr-controller/internal/kubernetes"
 	"github.com/Coflnet/pr-controller/internal/metrics"
 	"github.com/Coflnet/pr-controller/internal/model"
@@ -31,6 +32,12 @@ func Create(pr *model.Pr) error {
 	err = mongo.InsertPr(pr)
 	if err != nil {
 		log.Error().Err(err).Msgf("there was an error when saving the pr %s/%s", pr.Owner, pr.Repo)
+		return err
+	}
+
+	err = discord.SendPrCreateMessage(pr)
+	if err != nil {
+		log.Error().Err(err).Msgf("error sending discord notification")
 		return err
 	}
 

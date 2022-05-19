@@ -9,11 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-const (
-	PR_OPEN  = "open"
-	PR_CLOSE = "closed"
-)
-
 type Pr struct {
 	ID         primitive.ObjectID `bson:"_id"`
 	Owner      string             `bson:"owner"`
@@ -33,6 +28,10 @@ func (p *Pr) DomainName() string {
 
 func (p *Pr) DomainPath() string {
 	return fmt.Sprintf("/pr/%s/%s/%d", strings.ToLower(p.Owner), strings.ToLower(p.Repo), p.Number)
+}
+
+func (p *Pr) CompleteDomain() string {
+	return fmt.Sprintf("%s%s", p.DomainName(), p.DomainPath())
 }
 
 func (p *Pr) FullImageWithTag() string {

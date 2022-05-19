@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/Coflnet/pr-controller/internal/metrics"
 	"sync"
 	"time"
 
@@ -36,6 +37,7 @@ func UpdatePrEnvs() error {
 		err = pr.Create(newPr)
 		if err != nil {
 			log.Error().Err(err).Msgf("there was a problem when creating pr %s", newPr.Repo)
+			metrics.AddError()
 			return err
 		}
 
@@ -48,6 +50,7 @@ func UpdatePrEnvs() error {
 		err = pr.Update(updatePr)
 		if err != nil {
 			log.Error().Err(err).Msgf("there was a problem when updating pr %s", updatePr.Repo)
+			metrics.AddError()
 			return err
 		}
 
@@ -60,6 +63,7 @@ func UpdatePrEnvs() error {
 		err = pr.Destroy(destroyPr)
 		if err != nil {
 			log.Error().Err(err).Msgf("there was a problem when creating pr %s", destroyPr.Repo)
+			metrics.AddError()
 			return err
 		}
 

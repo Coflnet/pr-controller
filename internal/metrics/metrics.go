@@ -18,6 +18,11 @@ var (
 		Name: "pr_controller_environments_active",
 		Help: "Count active pr environments",
 	})
+
+	errorCounter = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "pr_controller_errors",
+		Help: "Count of errors",
+	})
 )
 
 func Init() error {
@@ -35,4 +40,8 @@ func AddEnvironment() {
 
 func RemoveEnvironment() {
 	environmentsActive.Dec()
+}
+
+func AddError() {
+	errorCounter.Inc()
 }

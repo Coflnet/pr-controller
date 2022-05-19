@@ -10,7 +10,7 @@ import (
 )
 
 type Pr struct {
-	ID         primitive.ObjectID `bson:"_id"`
+	ID         primitive.ObjectID `bson:"_id,omitempty"`
 	Owner      string             `bson:"owner"`
 	Repo       string             `bson:"repo"`
 	Number     int                `bson:"number"`

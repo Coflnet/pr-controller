@@ -1,19 +1,19 @@
 package mongo
 
 import (
+	"context"
 	"time"
 
 	"github.com/Coflnet/pr-controller/internal/model"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"golang.org/x/net/context"
 )
 
 func ListPrs() ([]*model.Pr, error) {
 	ctx := context.TODO()
 
-	prs := []*model.Pr{}
+	var prs []*model.Pr
 
 	cur, err := prCollection.Find(ctx, bson.D{})
 	if err != nil {

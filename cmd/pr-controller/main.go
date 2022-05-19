@@ -26,6 +26,11 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msg("could not connect to mongo")
 		}
+
+		err = refreshMetrics()
+		if err != nil {
+			log.Fatal().Err(err).Msgf("could not set the inital metrics count")
+		}
 	}()
 	defer mongo.Disconnect()
 
@@ -38,4 +43,19 @@ func main() {
 
 	err := api.StartApi()
 	log.Error().Err(err).Msgf("api stopped")
+}
+
+// sets the active environment count
+func refreshMetrics() error {
+	prs, err := mongo.ListPrs()
+	if err != nil {
+		log.Error().Err(err).Msg("error when refreshing metrics")
+		return err
+	}
+
+	for range prs {
+		metrics.AddEnvironment()
+	}
+
+	return nil
 }

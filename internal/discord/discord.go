@@ -29,12 +29,14 @@ func SendPrCreateMessage(pr *model.Pr) error {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(j))
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(j))
+	req.Header.Add("Content-Type", "application/json")
 	if err != nil {
 		log.Error().Err(err).Msgf("could not create request for discord notification payload")
 		return err
 	}
 
+	log.Info().Msgf("sending request to url: %s", url)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Error().Err(err).Msgf("could not send discord notification payload")
@@ -42,7 +44,7 @@ func SendPrCreateMessage(pr *model.Pr) error {
 	}
 
 	if resp.StatusCode >= 400 && resp.StatusCode <= 599 {
-		log.Error().Msg("failed to send discord webhook notification")
+		log.Error().Msgf("failed to send discord webhook notification, status %d", resp.StatusCode)
 		return err
 	}
 
